@@ -15,6 +15,7 @@ import TopBar from "./components/layout/TopBar";
 import StatusBadge from "./components/common/StatusBadge";
 import PriorityBadge from "./components/common/PriorityBadge";
 import KpiCard from "./components/common/KpiCard";
+import DashboardScreen from "./screens/DashboardScreen";
 
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -176,141 +177,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
 
 // ─── Screen: Dashboard ────────────────────────────────────────────────────────
 
-function DashboardScreen({ onNav }: { onNav: (s: Screen) => void }) {
-  return (
-    <div className="flex-1 overflow-y-auto bg-slate-50/60">
-      <TopBar title="Dashboard" subtitle="Monday, July 21, 2026">
-        <button
-          onClick={() => onNav("create")}
-          className="flex items-center gap-2 bg-[#0F766E] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#0D6B64] transition shadow-sm"
-        >
-          <Plus className="w-4 h-4" />New Request
-        </button>
-      </TopBar>
 
-      <div className="p-8 space-y-6">
-        <div>
-          <h2 className="text-xl font-bold text-slate-900">Good morning, Alex 👋</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Here's what's happening across your facilities today.</p>
-        </div>
-
-        {/* KPIs */}
-        <div className="grid grid-cols-4 gap-5">
-          <KpiCard label="Open Requests"  value="28"  delta="+4 this week"     icon={AlertCircle}  iconClass="bg-amber-50  text-amber-500"   />
-          <KpiCard label="In Progress"    value="14"  delta="+2 today"          icon={Clock}        iconClass="bg-blue-50   text-blue-500"    />
-          <KpiCard label="Completed"      value="142" delta="+12 this month"    icon={CheckCircle2} iconClass="bg-emerald-50 text-[#0F766E]"  />
-          <KpiCard label="Total Assets"   value="386" delta="+3 this quarter"   icon={Package}      iconClass="bg-violet-50 text-violet-500"  />
-        </div>
-
-        {/* Chart + Quick Actions */}
-        <div className="grid grid-cols-3 gap-5">
-          <div className="col-span-2 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-sm font-semibold text-slate-900">Requests Overview</h3>
-                <p className="text-xs text-slate-400 mt-0.5">Last 8 weeks · all categories</p>
-              </div>
-              <div className="flex items-center gap-4 text-xs text-slate-500">
-                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-400" />Open</span>
-                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-400" />In Progress</span>
-                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#0F766E]" />Completed</span>
-              </div>
-            </div>
-            <ResponsiveContainer width="100%" height={210}>
-              <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -24, bottom: 0 }}>
-                <defs>
-                  {[
-                    { id: "colorOpen",      color: "#F59E0B" },
-                    { id: "colorProgress",  color: "#3B82F6" },
-                    { id: "colorCompleted", color: "#0F766E" },
-                  ].map(({ id, color }) => (
-                    <linearGradient key={id} id={id} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%"  stopColor={color} stopOpacity={0.15} />
-                      <stop offset="95%" stopColor={color} stopOpacity={0}    />
-                    </linearGradient>
-                  ))}
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
-                <XAxis dataKey="week" tick={{ fontSize: 11, fill: "#94A3B8" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: "#94A3B8" }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  contentStyle={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: "12px", boxShadow: "0 4px 16px rgba(0,0,0,0.08)", fontSize: 12 }}
-                />
-                <Area type="monotone" dataKey="open"       stroke="#F59E0B" strokeWidth={2} fill="url(#colorOpen)"      />
-                <Area type="monotone" dataKey="inProgress" stroke="#3B82F6" strokeWidth={2} fill="url(#colorProgress)"  />
-                <Area type="monotone" dataKey="completed"  stroke="#0F766E" strokeWidth={2} fill="url(#colorCompleted)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Quick Actions</h3>
-            <div className="space-y-2">
-              {[
-                { label: "Submit New Request", icon: Plus,          action: () => onNav("create"),   primary: true  },
-                { label: "View All Requests",  icon: ClipboardList, action: () => onNav("requests"), primary: false },
-                { label: "Asset Registry",     icon: Package,       action: () => {},                primary: false },
-                { label: "Team Schedule",      icon: Users,         action: () => {},                primary: false },
-                { label: "Reports & Analytics",icon: BarChart2,     action: () => {},                primary: false },
-              ].map(({ label, icon: Icon, action, primary }) => (
-                <button
-                  key={label}
-                  onClick={action}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                    primary
-                      ? "bg-[#0F766E] text-white hover:bg-[#0D6B64] shadow-sm"
-                      : "text-slate-600 hover:bg-slate-50 border border-slate-100"
-                  }`}
-                >
-                  <Icon className="w-4 h-4 shrink-0" />
-                  {label}
-                  <ChevronRight className="w-3.5 h-3.5 ml-auto opacity-40" />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Requests table */}
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-50">
-            <h3 className="text-sm font-semibold text-slate-900">Recent Requests</h3>
-            <button onClick={() => onNav("requests")} className="text-xs text-[#0F766E] font-medium hover:underline flex items-center gap-1">
-              View all <ChevronRight className="w-3 h-3" />
-            </button>
-          </div>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-slate-50 bg-slate-50/60">
-                {["ID", "Title", "Category", "Priority", "Status", "Assignee", "Date"].map(h => (
-                  <th key={h} className="text-left px-6 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {requests.slice(0, 5).map(req => (
-                <tr
-                  key={req.id}
-                  className="hover:bg-slate-50/60 transition cursor-pointer group"
-                  onClick={() => onNav("detail")}
-                >
-                  <td className="px-6 py-3.5 text-xs font-mono text-slate-400 whitespace-nowrap">{req.id}</td>
-                  <td className="px-6 py-3.5 text-sm font-medium text-slate-800 max-w-56 truncate group-hover:text-[#0F766E] transition">{req.title}</td>
-                  <td className="px-6 py-3.5 text-xs text-slate-500">{req.category}</td>
-                  <td className="px-6 py-3.5"><PriorityBadge priority={req.priority} /></td>
-                  <td className="px-6 py-3.5"><StatusBadge status={req.status} /></td>
-                  <td className="px-6 py-3.5 text-xs text-slate-500 whitespace-nowrap">{req.assignee}</td>
-                  <td className="px-6 py-3.5 text-xs text-slate-400 whitespace-nowrap">{req.date}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── Screen: Requests List ────────────────────────────────────────────────────
 
