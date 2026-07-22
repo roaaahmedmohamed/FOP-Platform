@@ -87,6 +87,12 @@ The app currently demonstrates the core workflow:
 
 This repository includes a `package-lock.json`, so npm is the recommended package manager for reproducible installs.
 
+### Clone the repository
+
+```bash
+git clone https://github.com/roaaahmedmohamed/FOP-Platform.git
+```
+
 ### Installation
 
 ```bash
@@ -165,10 +171,4 @@ For now, validate changes manually by running the development server and checkin
 - Add automated tests for key UI flows.
 - Add linting, formatting, and CI checks.
 
-## License
 
-No license file is currently included in this repository.
-
-## Attribution
-
-See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for attribution notes included with the project bundle.
