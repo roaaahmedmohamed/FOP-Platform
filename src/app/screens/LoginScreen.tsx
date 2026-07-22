@@ -18,7 +18,7 @@ export default function LoginScreen({ onLogin }: Props) {
   return (
     <div className="min-h-screen bg-slate-50 flex font-[Inter,sans-serif]">
       {/* Form panel */}
-      <div className="w-full max-w-md mx-auto flex flex-col justify-center px-10 py-16">
+      <div className="w-full max-w-md mx-auto flex flex-col justify-center px-6 sm:px-10 py-10 sm:py-16">
         <div className="flex items-center gap-3 mb-10">
           <div className="w-10 h-10 rounded-xl bg-[#0F766E] flex items-center justify-center shadow-lg shadow-emerald-200">
             <Wrench className="w-5 h-5 text-white" />
@@ -99,7 +99,7 @@ export default function LoginScreen({ onLogin }: Props) {
           <p className="text-sm text-white/70 leading-relaxed">
             Streamline maintenance requests, track assets, and keep your facilities running at peak efficiency.
           </p>
-          <div className="mt-8 grid grid-cols-3 gap-4">
+          <div className="mt-8 grid grid-cols-3 gap-4 max-w-sm mx-auto">
             {[
               { label: "Open",        value: "28"  },
               { label: "In Progress", value: "14"  },
