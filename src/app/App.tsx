@@ -12,6 +12,9 @@ import {
 } from "recharts";
 import Sidebar from "./components/layout/Sidebar";
 import TopBar from "./components/layout/TopBar";
+import StatusBadge from "./components/common/StatusBadge";
+import PriorityBadge from "./components/common/PriorityBadge";
+import KpiCard from "./components/common/KpiCard";
 
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -45,38 +48,12 @@ const requests = [
 
 // ─── Shared micro-components ──────────────────────────────────────────────────
 
-const STATUS_STYLES: Record<string, { bg: string; text: string; dot: string }> = {
-  "Open":        { bg: "bg-amber-50",   text: "text-amber-700",   dot: "bg-amber-400"   },
-  "In Progress": { bg: "bg-blue-50",    text: "text-blue-700",    dot: "bg-blue-400"    },
-  "Completed":   { bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-500" },
-  "Critical":    { bg: "bg-red-50",     text: "text-red-700",     dot: "bg-red-400"     },
-};
 
-const PRIORITY_STYLES: Record<string, string> = {
-  "Critical": "text-red-600    bg-red-50    border-red-200",
-  "High":     "text-orange-600 bg-orange-50 border-orange-200",
-  "Medium":   "text-amber-600  bg-amber-50  border-amber-200",
-  "Low":      "text-slate-500  bg-slate-50  border-slate-200",
-};
 
-function StatusBadge({ status }: { status: string }) {
-  const c = STATUS_STYLES[status] ?? { bg: "bg-slate-50", text: "text-slate-600", dot: "bg-slate-400" };
-  return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${c.bg} ${c.text}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
-      {status}
-    </span>
-  );
-}
 
-function PriorityBadge({ priority }: { priority: string }) {
-  const c = PRIORITY_STYLES[priority] ?? "";
-  return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${c}`}>
-      {priority}
-    </span>
-  );
-}
+
+
+
 
 // ─── Layout shells ────────────────────────────────────────────────────────────
 
@@ -86,24 +63,7 @@ function PriorityBadge({ priority }: { priority: string }) {
 
 // ─── KPI Card ─────────────────────────────────────────────────────────────────
 
-function KpiCard({ label, value, delta, icon: Icon, iconClass }: {
-  label: string; value: string; delta: string; icon: React.ElementType; iconClass: string;
-}) {
-  return (
-    <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-3">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconClass}`}>
-          <Icon className="w-5 h-5" />
-        </div>
-        <span className="text-xs text-emerald-600 font-medium flex items-center gap-1">
-          <TrendingUp className="w-3 h-3" />{delta}
-        </span>
-      </div>
-      <p className="text-2xl font-bold text-slate-900 tracking-tight">{value}</p>
-      <p className="text-xs text-slate-500 mt-0.5">{label}</p>
-    </div>
-  );
-}
+
 
 // ─── Screen: Login ────────────────────────────────────────────────────────────
 
